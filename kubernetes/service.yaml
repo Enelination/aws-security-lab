@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: vulnerable-api
+  namespace: security-lab
+spec:
+  selector:
+    app: vulnerable-api
+  ports:
+    - port: 80
+      targetPort: 8080
+  type: ClusterIP

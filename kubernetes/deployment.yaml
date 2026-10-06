@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vulnerable-api
+  namespace: security-lab
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vulnerable-api
+  template:
+    metadata:
+      labels:
+        app: vulnerable-api
+    spec:
+      containers:
+        - name: api
+          image: 391727473376.dkr.ecr.us-east-1.amazonaws.com/security-agent-lab/vulnerable-api:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: vulnerable-api-config
+          env:
+            - name: JWT_SECRET
+              value: "lab-only-jwt-secret"
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: vulnerable-api-db
+                  key: DATABASE_URL  
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi

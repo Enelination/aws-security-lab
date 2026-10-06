@@ -1,0 +1,7 @@
+aws_region        = "us-east-1"
+name              = "security-agent-lab"
+eks_version       = "1.33"
+node_instance_type = "t3.medium"
+
+# Change this before terraform apply.
+db_password = "CHANGE-ME-use-a-long-random-lab-password"

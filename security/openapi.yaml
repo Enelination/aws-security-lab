@@ -1,0 +1,47 @@
+openapi: 3.0.3
+info:
+  title: Security Agent Vulnerable API
+  version: 1.0.0
+servers:
+  - url: https://REPLACE_WITH_VERIFIED_DOMAIN
+paths:
+  /health:
+    get:
+      summary: Health check
+      responses:
+        "200":
+          description: OK
+  /api/users/{id}:
+    get:
+      summary: Get a user
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: User
+  /api/profile:
+    get:
+      summary: Get current profile
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Profile
+  /api/admin/config:
+    get:
+      summary: Administrative configuration
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Configuration
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
