@@ -10,8 +10,7 @@ metadata:
 spec:
   ingressClassName: alb
   rules:
-    - host: REPLACE_WITH_VERIFIED_DOMAIN
-      http:
+    - http:
         paths:
           - path: /
             pathType: Prefix
